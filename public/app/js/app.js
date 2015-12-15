@@ -19,10 +19,15 @@ app.config([
 		templateUrl: 'app/views/about.html'
 	})
 	.when('/login', {
-		templateUrl: 'app/views/auth.html'
+		templateUrl: 'app/views/auth.html',
+		controller: 'LoginCtrl'
 	})
 	.when('/signup', {
-		templateUrl: 'app/views/auth.html'
+		templateUrl: 'app/views/auth.html',
+		controller: 'SignupCtrl'
+	})
+	.when('/profile', {
+		templateUrl: 'app/views/profile.html' 
 	})
 	.otherwise({
 		templateUrl: 'app/views/error.html'

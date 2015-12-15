@@ -1,4 +1,4 @@
-angular.module('HarmonyCtrls',[])
+angular.module('HarmonyCtrls',['HarmonyServices'])
 .controller('HarmonyCtrl', ['$scope', function($scope) {
 	$scope.test = "This is a Test";
 	 var c = teoria.note('c4');
@@ -7,13 +7,17 @@ angular.module('HarmonyCtrls',[])
 .controller('CompCtrl', ['$scope', function($scope) {
 	var count = 0;
 	$scope.begin = true;
+	$scope.reset = false;
 	$scope.getInitialValue = function() {
 		
 		var note = teoria.note($scope.note);
 		var quality = $scope.chordQuality;
 
 		$scope.chordOne = note.chord(quality).name;
+		$scope.chordOneNotes = note.chord(quality).simple();
 		$scope.begin = false;
+		$scope.chordProgression = [];
+		$scope.chordProgression.push($scope.chordOne);
 
 		var majorChords = [
 			{"name": "rootChord",
@@ -71,15 +75,15 @@ angular.module('HarmonyCtrls',[])
 			"notes": teoria.interval(note, 'm7').chord('M').simple()}
 			];
 
-		if(count === 0 && quality === 'M') {
+		if(quality === 'M' && count === 0) {
 			$scope.chordOptions = [
 				{chord: majorChords[1].chord},
 				{chord: majorChords[3].chord},
 				{chord: majorChords[4].chord},
 				{chord: majorChords[5].chord}
 			];
-		} else if (count === 0 && quality === 'm') {
-				$scope.chordOptions = [
+		} else if (quality === 'm' && count === 0) {
+			$scope.chordOptions = [
 				{chord: minorChords[3].chord},
 				{chord: minorChords[4].chord},
 				{chord: minorChords[5].chord},
@@ -88,227 +92,322 @@ angular.module('HarmonyCtrls',[])
 		}
 
 		$scope.getChords = function() {
+			if($scope.chordName) {
+
 			count += 1;
+			console.log($scope.chordName);
 			console.log(count);
-			if (count < 4) {
-				//major chord tree
-				if ($scope.chordName === majorChords[1].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[2].chord},
-						{chord: majorChords[3].chord}
-					];
-				} else if ($scope.chordName === majorChords[3].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[0].chord},
-						{chord: majorChords[4].chord},
-						{chord: majorChords[5].chord}
-					];
-				} else if ($scope.chordName === majorChords[4].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[0].chord},
-						{chord: majorChords[3].chord},
-						{chord: majorChords[5].chord}
-					];
-				} else if ($scope.chordName === majorChords[5].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[1].chord},
-						{chord: majorChords[3].chord}
-					];
+			
+			//major chord tree
+			if ($scope.chordName === majorChords[1].chord && count === 1) {
+				$scope.chordTwo = $scope.chordName;
+				$scope.chordProgression.push($scope.chordTwo);
+				$scope.chordOptions = [
+					{chord: majorChords[2].chord},
+					{chord: majorChords[3].chord}
+				];
+			} else if ($scope.chordName === majorChords[3].chord && count === 1) {
+				$scope.chordTwo = $scope.chordName;
+				$scope.chordProgression.push($scope.chordTwo);
+				$scope.chordOptions = [
+					{chord: majorChords[0].chord},
+					{chord: majorChords[4].chord},
+					{chord: majorChords[5].chord}
+				];
+			} else if ($scope.chordName === majorChords[4].chord && count === 1) {
+				$scope.chordTwo = $scope.chordName;
+				$scope.chordProgression.push($scope.chordTwo);
+				$scope.chordOptions = [
+					{chord: majorChords[0].chord},
+					{chord: majorChords[3].chord},
+					{chord: majorChords[5].chord}
+				];
+			} else if ($scope.chordName === majorChords[5].chord && count === 1) {
+				$scope.chordTwo = $scope.chordName;
+				$scope.chordProgression.push($scope.chordTwo);
+				$scope.chordOptions = [
+					{chord: majorChords[1].chord},
+					{chord: majorChords[3].chord}
+				];
 
-				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordName === majorChords[2].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[3].chord},
-						{chord: majorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordName === majorChords[3].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordThree === majorChords[3].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordThree === majorChords[2].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[3].chord},
-						{chord: majorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordName === majorChords[0].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[3].chord},
-						{chord: majorChords[4].chord}
-					];
-				}  else if ($scope.chordTwo === majorChords[3].chord && $scope.chordName === majorChords[4].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[0].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordName === majorChords[5].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordThree === majorChords[0].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordThree === majorChords[4].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordThree === majorChords[5].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordName === majorChords[0].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordName === majorChords[3].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordName === majorChords[5].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordThree === majorChords[0].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordThree === majorChords[3].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordThree === majorChords[5].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === majorChords[5].chord && $scope.chordName === majorChords[1].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[5].chord && $scope.chordName === majorChords[3].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: majorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === majorChords[5].chord && $scope.chordThree === majorChords[1].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === majorChords[5].chord && $scope.chordThree === majorChords[3].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
+			} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordName === majorChords[2].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[3].chord},
+					{chord: majorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordName === majorChords[3].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordThree === majorChords[3].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordThree === majorChords[2].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				$scope.chordOptions = [
+					{chord: majorChords[3].chord},
+					{chord: majorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordName === majorChords[0].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[3].chord},
+					{chord: majorChords[4].chord}
+				];
+			}  else if ($scope.chordTwo === majorChords[3].chord && $scope.chordName === majorChords[4].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[0].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordName === majorChords[5].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordThree === majorChords[0].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordThree === majorChords[4].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordThree === majorChords[5].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordName === majorChords[0].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordName === majorChords[3].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordName === majorChords[5].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordThree === majorChords[0].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordThree === majorChords[3].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === majorChords[4].chord && $scope.chordThree === majorChords[5].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === majorChords[5].chord && $scope.chordName === majorChords[1].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[5].chord && $scope.chordName === majorChords[3].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: majorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === majorChords[5].chord && $scope.chordThree === majorChords[1].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === majorChords[5].chord && $scope.chordThree === majorChords[3].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
 
-				//minor chord tree
-				} else if ($scope.chordName === minorChords[3].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[0].chord},
-						{chord: minorChords[4].chord},
-						{chord: minorChords[6].chord}
-					];
-				} else if ($scope.chordName === minorChords[4].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[2].chord},
-						{chord: minorChords[3].chord}
-					];
-				} else if ($scope.chordName === minorChords[5].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[2].chord},
-						{chord: minorChords[4].chord}
-					];
-				} else if ($scope.chordName === minorChords[6].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[2].chord},
-						{chord: minorChords[5].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordName === minorChords[0].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[0].chord},
-						{chord: minorChords[3].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordName === minorChords[4].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[0].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordName === minorChords[6].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[2].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordThree === minorChords[0].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordThree === minorChords[4].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordThree === minorChords[6].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === minorChords[4].chord && $scope.chordName === minorChords[2].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[1].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[4].chord && $scope.chordName === minorChords[3].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[6].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[4].chord && $scope.chordThree === minorChords[2].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === minorChords[4].chord && $scope.chordThree === minorChords[3].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === minorChords[5].chord && $scope.chordName === minorChords[2].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[3].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[5].chord && $scope.chordName === minorChords[4].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[0].chord},
-						{chord: minorChords[1].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[5].chord && $scope.chordThree === minorChords[2].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === minorChords[5].chord && $scope.chordThree === minorChords[4].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === minorChords[6].chord && $scope.chordName === minorChords[2].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[1].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[6].chord && $scope.chordName === minorChords[5].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordOptions = [
-						{chord: minorChords[4].chord}
-					];
-				} else if ($scope.chordTwo === minorChords[6].chord && $scope.chordThree === minorChords[2].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				} else if ($scope.chordTwo === minorChords[6].chord && $scope.chordThree === minorChords[5].chord && count === 3) {
-					$scope.chordFour = $scope.chordName;
-					return;
-				}
-			} else {
+			//minor chord tree
+			} else if ($scope.chordName === minorChords[3].chord && count === 1) {
+				$scope.chordTwo = $scope.chordName;
+				$scope.chordProgression.push($scope.chordTwo);
+				$scope.chordOptions = [
+					{chord: minorChords[0].chord},
+					{chord: minorChords[4].chord},
+					{chord: minorChords[6].chord}
+				];
+			} else if ($scope.chordName === minorChords[4].chord && count === 1) {
+				$scope.chordTwo = $scope.chordName;
+				$scope.chordProgression.push($scope.chordTwo);
+				$scope.chordOptions = [
+					{chord: minorChords[2].chord},
+					{chord: minorChords[3].chord}
+				];
+			} else if ($scope.chordName === minorChords[5].chord && count === 1) {
+				$scope.chordTwo = $scope.chordName;
+				$scope.chordProgression.push($scope.chordTwo);
+				$scope.chordOptions = [
+					{chord: minorChords[2].chord},
+					{chord: minorChords[4].chord}
+				];
+			} else if ($scope.chordName === minorChords[6].chord && count === 1) {
+				$scope.chordTwo = $scope.chordName;
+				$scope.chordProgression.push($scope.chordTwo);
+				$scope.chordOptions = [
+					{chord: minorChords[2].chord},
+					{chord: minorChords[5].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordName === minorChords[0].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: minorChords[0].chord},
+					{chord: minorChords[3].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordName === minorChords[4].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: minorChords[0].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordName === minorChords[6].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: minorChords[2].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordThree === minorChords[0].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordThree === minorChords[4].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === minorChords[3].chord && $scope.chordThree === minorChords[6].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === minorChords[4].chord && $scope.chordName === minorChords[2].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: minorChords[1].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[4].chord && $scope.chordName === minorChords[3].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: minorChords[6].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[4].chord && $scope.chordThree === minorChords[2].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === minorChords[4].chord && $scope.chordThree === minorChords[3].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === minorChords[5].chord && $scope.chordName === minorChords[2].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: minorChords[3].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[5].chord && $scope.chordName === minorChords[4].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: minorChords[0].chord},
+					{chord: minorChords[1].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[5].chord && $scope.chordThree === minorChords[2].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === minorChords[5].chord && $scope.chordThree === minorChords[4].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === minorChords[6].chord && $scope.chordName === minorChords[2].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: minorChords[1].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[6].chord && $scope.chordName === minorChords[5].chord && count === 2) {
+				$scope.chordThree = $scope.chordName;
+				$scope.chordProgression.push($scope.chordThree);
+				$scope.chordOptions = [
+					{chord: minorChords[4].chord}
+				];
+			} else if ($scope.chordTwo === minorChords[6].chord && $scope.chordThree === minorChords[2].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
+				return;
+			} else if ($scope.chordTwo === minorChords[6].chord && $scope.chordThree === minorChords[5].chord && count === 3) {
+				$scope.chordFour = $scope.chordName;
+				$scope.chordProgression.push($scope.chordFour);
 				return;
 			}
+			
+		}
 		}	
 	}
-}]);
+}])
+.controller('LoginCtrl', [
+  '$scope',
+  '$http',
+  '$location',
+  'Auth',
+  function($scope, $http, $location, Auth) {
+    $scope.user = {
+      email: '',
+      password: ''
+    };
+    $scope.actionName = 'Login';
+    $scope.userAction = function() {
+      $http.post('/api/auth', $scope.user).then(function(res) {
+        Auth.saveToken(res.data.token);
+        $location.path('/');
+      }, function(res) {
+        console.log(res.data);
+      });
+    };
+}])
+.controller('SignupCtrl', [
+  '$scope',
+  '$http',
+  '$location',
+  'Auth',
+  function($scope, $http, $location, Auth) {
+    $scope.user = {
+      email: '',
+      password: ''
+    };
+    $scope.actionName = 'SignUp';
+    $scope.userAction = function() {
+    	console.log($scope.user);
+      $http.post('/api/users', $scope.user).then(function (res) {
+        $http.post('/api/auth', $scope.user).then(function (res) {
+            Auth.saveToken(res.data.token);
+           console.log('hi');
+          $location.path('/');
+        }, function (res) {
+            console.log(res.data);
+        });
+      }, function (res) {
+          console.log(res.data);
+      });
+    }
+  }
+]);
