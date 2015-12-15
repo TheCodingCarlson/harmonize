@@ -5,7 +5,7 @@ var UserSchema = mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  progressions: Array
+  progressions: [[String]]
 });
 
 UserSchema.set('toJSON', {

@@ -2,13 +2,13 @@ angular.module('HarmonyServices', ['ngResource'])
 .factory('Auth', ['$window', function($window) {
 	return {
 		saveToken: function(token) {
-			$window.localStorage['secretairplane-token'] = token;
+			$window.localStorage['secretharm-token'] = token;
 		},
 		getToken: function() {
-			return $window.localStorage['secretairplane-token'];
+			return $window.localStorage['secretharm-token'];
 		},
 		removeToken: function() {
-			$window.localStorage.removeItem('secretairplane-token');
+			$window.localStorage.removeItem('secretharm-token');
 		},
 		isLoggedIn: function() {
 			var token = this.getToken();
