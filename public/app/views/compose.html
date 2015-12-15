@@ -24,9 +24,9 @@
 <div ng-hide="begin">
 	<form ng-submit="getChords()">
 		<h3>Common Chords To Choose Next</h3>
-		<select class="form-control" name="chords" id="chords" ng-model='chordNumber'>
+		<select class="form-control" name="chords" id="chords" ng-model="chordName">
 			<option value="">---Please select a chord---</option>
-			<option ng-repeat="chord in chordOptions" value="{{ chord.num }}">{{ chord.chord }}</option>
+			<option ng-repeat="chord in chordOptions" value="{{ chord.chord }}">{{ chord.chord }}</option>
 		</select>
 		<button type="submit" class="btn btn-default">Add Chord</button>
 	</form>

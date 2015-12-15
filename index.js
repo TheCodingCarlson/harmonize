@@ -7,8 +7,8 @@ var app = express();
 var secret = 'mysupersecretpassword';
 var mongoose = require('mongoose');
 
-// var User = require('./models/user');
-// var Favorite = require('./models/favorite');
+var User = require('./models/user');
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
