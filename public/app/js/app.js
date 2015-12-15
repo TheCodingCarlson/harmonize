@@ -1,4 +1,4 @@
-var app = angular.module('HarmonyApp', ['HarmonyCtrls', 'ngRoute']);
+var app = angular.module('HarmonyApp', ['HarmonyServices','HarmonyCtrls', 'ngRoute']);
 
 app.config([
 	'$routeProvider', 
@@ -29,4 +29,18 @@ app.config([
 	});
 
 	$locationProvider.html5Mode(true);
+}])
+.config(['$httpProvider', function($httpProvider) {
+  $httpProvider.interceptors.push('AuthInterceptor');
+}])
+.run(['$rootScope', 'Auth', '$route', function($rootScope, Auth, $route) {
+
+	$rootScope.logout = function() {
+    	Auth.removeToken();
+	    $route.reload();
+ 	};
+
+	$rootScope.isLoggedIn = function() {
+    	return Auth.isLoggedIn.apply(Auth);
+  	}
 }]);
