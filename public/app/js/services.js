@@ -1,5 +1,5 @@
 angular.module('HarmonyServices', ['ngResource'])
-.factory('Auth', ['$window', function($window) {
+.factory('Auth', ['$window', '$location', function($window, $location) {
 	return {
 		saveToken: function(token) {
 			$window.localStorage['secretharm-token'] = token;
@@ -13,7 +13,22 @@ angular.module('HarmonyServices', ['ngResource'])
 		isLoggedIn: function() {
 			var token = this.getToken();
 			return token ? true : false
-		}
+		},
+		currentUser: function() {
+      		if (this.isLoggedIn()) {
+        		var token = this.getToken();
+        		try {
+          			var payload = JSON.parse($window.atob(token.split('.')[1]));
+          			return payload;
+        		} catch(err) {
+          			return false;
+        		}	
+      		}
+    	},
+    	logout: function() {
+    		this.removeToken();
+	    	$location.path('/');
+ 		},
 	};
 }])
 .factory('AuthInterceptor', ['Auth', function(Auth) {
