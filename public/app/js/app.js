@@ -27,7 +27,8 @@ app.config([
 		controller: 'SignupCtrl'
 	})
 	.when('/profile', {
-		templateUrl: 'app/views/profile.html' 
+		templateUrl: 'app/views/profile.html',
+		controller: 'ProfileCtrl'
 	})
 	.otherwise({
 		templateUrl: 'app/views/error.html'
@@ -38,13 +39,7 @@ app.config([
 .config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push('AuthInterceptor');
 }])
-.run(['$rootScope', 'Auth', '$route', function($rootScope, Auth, $route) {
-
-	$rootScope.logout = function() {
-    	Auth.removeToken();
-	    $route.reload();
- 	};
-
+.run(['$rootScope', 'Auth', '$route', '$location', function($rootScope, Auth, $route, $location) {
 	$rootScope.isLoggedIn = function() {
     	return Auth.isLoggedIn.apply(Auth);
   	}
