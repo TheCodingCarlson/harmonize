@@ -4,6 +4,7 @@ var router = express.Router();
 
 router.route('/')
   .get(function(req, res) {
+    console.log(req.params.id);
     User.find(function(err, users) {
       if (err) return res.status(500).send(err);
       res.send(users);
@@ -19,11 +20,12 @@ router.route('/')
 router.get('/:id', function(req, res) {
   User.findById(req.params.id, function(err, user) {
     if (err) return res.status(500).send(err);
+    console.log(req.params.id);
     res.send(user);
   });
 });
 
-router.post('/:id', function(req, res) {
+router.route('/:id').post(function(req, res) {
   User.findById(req.params.id, function(err, user) {
     user.progressions.push(req.body.progression);
     user.save(function(err) {
@@ -31,6 +33,12 @@ router.post('/:id', function(req, res) {
         if (err) return res.status(500).send(err);
         res.send({'message': 'success'});
     });
+  });
+}).put(function(req, res) {
+  User.findByIdAndUpdate(req.params.id, {progressions: req.body.progressions}, function(err, user) {
+    console.log(req.body.progressions);
+    if (err) return res.status(500).send(err);
+    res.send({'message': 'success'});
   });
 });
   
