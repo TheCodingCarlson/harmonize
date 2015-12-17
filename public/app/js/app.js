@@ -1,4 +1,4 @@
-var app = angular.module('HarmonyApp', ['HarmonyServices','HarmonyCtrls', 'ngRoute']);
+var app = angular.module('HarmonyApp', ['HarmonyServices','HarmonyCtrls', 'ngRoute', 'ui.bootstrap']);
 
 app.config([
 	'$routeProvider', 

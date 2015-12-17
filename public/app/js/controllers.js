@@ -1,9 +1,6 @@
-angular.module('HarmonyCtrls',['HarmonyServices'])
+angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 .controller('HarmonyCtrl', ['$scope', function($scope) {
-	// $scope.successAlert = function() {
-	// 	var message = '<strong> Well done!</strong>  You  have successfully signed in!';
-	// 	Flash.create('success', message);
-	// }
+	
 }])
 .controller('CompCtrl', ['$scope','Auth', '$http', function($scope, Auth, $http) {
 
@@ -22,13 +19,6 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 		return arr;
 	}
 
-	//function to set chord params when choice is made
-	var setChordParams = function(chord) {
-		chord = $scope.chordName;
-		$scope.chordProgression.push(chord);
-		$scope.chordName = '';
-	}
-
 	$scope.getInitialValue = function() {
 
 		//get value from initial inputs and set them as vars
@@ -38,66 +28,56 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 		if (note && quality) {
 
 		//set initial state
-		$scope.chordOne = note.chord(quality).name;
-		$scope.begin = false;
 		$scope.chordProgression = [];
+		$scope.chordProgressionNotes = [];
+		$scope.chordOne = note.chord(quality).name;
+		$scope.chordOneNotes = fixChordNotes(note.chord(quality).simple());
+		$scope.chordProgressionNotes.push($scope.chordOneNotes); 
+		$scope.begin = false;
 		$scope.chordProgression.push($scope.chordOne);
 
 		//MAJOR CHORDS
 		var majorChords = [
-			{"name": "rootChord",
-			"chord": note.chord(quality).name, 
+			{"chord": note.chord(quality).name, 
 			"notes": note.chord(quality).simple()},
 
-			{"name": "minorSecond",
-			"chord": teoria.interval(note, 'M2').chord('m').name, 
+			{"chord": teoria.interval(note, 'M2').chord('m').name, 
 			"notes": teoria.interval(note, 'M2').chord('m').simple()},
 
-			{"name": "minorThird",
-			"chord": teoria.interval(note, 'M3').chord('m').name,
+			{"chord": teoria.interval(note, 'M3').chord('m').name,
 			"notes": teoria.interval(note, 'M3').chord('m').simple()},
 
-			{"name": "majorFourth",
-			"chord": teoria.interval(note, 'P4').chord('M').name,
+			{"chord": teoria.interval(note, 'P4').chord('M').name,
 			"notes": teoria.interval(note, 'P4').chord('M').simple()},
 
-			{"name": "majorFifth",
-			"chord": teoria.interval(note, 'P5').chord('M').name,
+			{"chord": teoria.interval(note, 'P5').chord('M').name,
 			"notes": teoria.interval(note, 'P5').chord('M').simple()},
 
-			{"name": "minorSixth",
-			"chord": teoria.interval(note, 'M6').chord('m').name,
+			{"chord": teoria.interval(note, 'M6').chord('m').name,
 			"notes": teoria.interval(note, 'M6').chord('m').simple()}
 			];
 
 		//MINOR CHORDS
 		var minorChords = [
-			{"name": "rootChord",
-			"chord": note.chord(quality).name, 
+			{"chord": note.chord(quality).name, 
 			"notes": note.chord(quality).simple()},
 
-			{"name": "diminishedSecond",
-			"chord": teoria.interval(note, 'M2').chord('dim').name, 
+			{"chord": teoria.interval(note, 'M2').chord('dim').name, 
 			"notes": teoria.interval(note, 'M2').chord('dim').simple()},
 
-			{"name": "majorThird",
-			"chord": teoria.interval(note, 'm3').chord('M').name,
+			{"chord": teoria.interval(note, 'm3').chord('M').name,
 			"notes": teoria.interval(note, 'm3').chord('M').simple()},
 
-			{"name": "minorFourth",
-			"chord": teoria.interval(note, 'P4').chord('m').name,
+			{"chord": teoria.interval(note, 'P4').chord('m').name,
 			"notes": teoria.interval(note, 'P4').chord('m').simple()},
 
-			{"name": "minorFifth",
-			"chord": teoria.interval(note, 'P5').chord('m').name,
+			{"chord": teoria.interval(note, 'P5').chord('m').name,
 			"notes": teoria.interval(note, 'P5').chord('m').simple()},
 
-			{"name": "majorSixth",
-			"chord": teoria.interval(note, 'm6').chord('M').name,
+			{"chord": teoria.interval(note, 'm6').chord('M').name,
 			"notes": teoria.interval(note, 'm6').chord('M').simple()},
 
-			{"name": "majorSeventh",
-			"chord": teoria.interval(note, 'm7').chord('M').name,
+			{"chord": teoria.interval(note, 'm7').chord('M').name,
 			"notes": teoria.interval(note, 'm7').chord('M').simple()}
 			];
 
@@ -122,10 +102,28 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 		$scope.getChords = function() {
 			if($scope.chordName) {
 				count += 1;
-				console.log($scope.chordName);
+
+				//function to set chord params when choice is made
+				var setChordParams = function(chord, chordNotes, dbChordNotes) {
+					chord = $scope.chordName;
+					$scope.chordProgression.push(chord);
+					chordNotes = fixChordNotes(dbChordNotes);
+					$scope.chordProgressionNotes.push(chordNotes);
+					$scope.chordName = '';
+
+
+					console.log(chord);
+					console.log('***********');
+					console.log($scope.chordProgression);
+					console.log('***********');
+					console.log(chordNotes);
+					console.log('***********');
+					console.log($scope.chordProgressionNotes);
+					console.log('***********');
+				}
 
 				//MAJOR CHORD TREE
-				
+
 				//if ii is 2nd chord
 				if ($scope.chordName === majorChords[1].chord && count === 1) {
 					$scope.chordTwo = $scope.chordName;
@@ -495,7 +493,8 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
   '$http',
   '$location',
   'Auth',
-  function($scope, $http, $location, Auth) {
+  'Alerts',
+  function($scope, $http, $location, Auth, Alerts) {
     $scope.user = {
       email: '',
       password: ''
@@ -504,8 +503,14 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
     $scope.showName = false;
     $scope.userAction = function() {
       $http.post('/api/auth', $scope.user).then(function(res) {
-        Auth.saveToken(res.data.token);
-        $location.path('/');
+      	if(res.data.token) {
+       	 	Auth.saveToken(res.data.token);
+        	$location.path('/');
+
+    	} else {
+    		Alerts.add('danger', 'User Not Found!');
+    		console.log('error');
+    	}
       }, function(res) {
         console.log(res.data);
       });
@@ -544,9 +549,7 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 	'Auth',
 	'$http',
 	'User',
-	'$routeParams',
-	'$rootScope',
-	function($scope, $location, Auth, $http, User, $routeParams, $rootScope) {
+	function($scope, $location, Auth, $http, User) {
 	var user = Auth.currentUser();
 
 	User.get({id: user.id}, function success(data) {
@@ -578,4 +581,10 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 		$scope.logout = function() {
 			Auth.logout();
 		}
+}])
+.controller('AlertCtrl', ['$scope', 'Alerts', function($scope, Alerts){
+    $scope.alerts = Alerts.get();
+    $scope.closeAlert = function(idx){
+        Alerts.remove(idx);
+    }
 }]);
