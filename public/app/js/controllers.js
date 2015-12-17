@@ -508,7 +508,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
       	if(res.data.token) {
        	 	Auth.saveToken(res.data.token);
         	$location.path('/');
-
+        	Alerts.add('success', 'You have logged in!');
     	} else {
     		Alerts.add('danger', 'User Not Found!');
     		console.log('error');
@@ -534,8 +534,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
     	console.log($scope.user);
       $http.post('/api/users', $scope.user).then(function (res) {
         $http.post('/api/auth', $scope.user).then(function (res) {
-            Auth.saveToken(res.data.token);
-           console.log('hi');
+           Auth.saveToken(res.data.token);
           $location.path('/');
         }, function (res) {
             console.log(res.data);
@@ -579,9 +578,11 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 .controller('NavBarCtrl', [
 	'$scope',
 	'Auth',
-	function($scope, Auth) {
+	'Alerts',
+	function($scope, Auth, Alerts) {
 		$scope.logout = function() {
 			Auth.logout();
+			Alerts.add('success', 'You have successfully logged out!');
 		}
 }])
 .controller('AlertCtrl', ['$scope', 'Alerts', function($scope, Alerts){
