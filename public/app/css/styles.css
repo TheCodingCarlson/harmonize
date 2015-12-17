@@ -95,6 +95,10 @@ z-index: 999;
 	color: white;
 }
 
+.green {
+	color: #c2d995;
+}
+
 .error-msg {
 	text-align: center;
 }
@@ -117,8 +121,21 @@ z-index: 999;
 	outline: none;
 }
 
-.chord-show {
-	overflow: scroll;
-	height: 50vh;
-	background-color: white;
+.keys-container {
+	height: 15vh;
+	text-align: center;
+}
+
+#keys {
+	height: 100%;
+	width: 75%;
+	border: 5px solid #c2d995;
+	border-radius: 15px;
+}
+
+.favorite-chords {
+	height: 400px;
+	width: 300px;
+	overflow: auto;
+	border: 2px solid white;
 }
