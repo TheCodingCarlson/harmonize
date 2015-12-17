@@ -4,11 +4,11 @@ var path = require('path');
 var expressJWT = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var app = express();
-var secret = 'mysupersecretpassword';
+var secret = process.env.SALT;
 var mongoose = require('mongoose');
 
 var User = require('./models/user');
-mongoose.connect('mongodb://localhost/harmonize');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/harmonize');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -41,6 +41,4 @@ app.get('/*', function(req, res) {
 	res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.listen(3000, function() {
-	console.log('In the ether...listening to the aliens...');
-});
+app.listen(process.env.PORT || 3000);
