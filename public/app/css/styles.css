@@ -1,0 +1,91 @@
+body { 
+ background-color: #395668;
+ color: #c2d995;
+ font-family: 'Raleway', sans-serif;
+}
+.btn {
+	border-radius: none;
+}
+.navbar {
+	border-top: none;
+	border-right: none;
+	border-left: none;
+}
+
+#logo {
+	color: #395668;
+	font-family: 'Droid Sans', sans-serif;
+	font-weight: bold;
+}
+
+#navlinks {
+	color: #395668;
+}
+
+#navlinks:hover {
+	background-color: #c2d995;
+}
+
+.nav {
+	border-radius: none;
+}
+
+#homeh1 {
+	text-align: center;
+}
+
+#homep {
+	text-align: center;
+	font-size: 15px;
+}
+
+#homea {
+	color: white;
+	text-decoration: none;
+}
+
+#homea:hover {
+	text-decoration: underline;	
+}
+
+#harmonize {
+	font-weight: bold;
+}
+
+.movie-container {
+	height: 50vh;
+	margin-bottom: 1.5em;
+}
+
+#movie {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+#first-button {
+	margin-top: 1rem;
+}
+
+.first-button-container {
+	text-align: center;
+}
+
+.chord-prog-container {
+	display: inline-block;
+	text-align: center;
+}
+
+#chord {
+	font-weight: bold;
+	margin-left: 1rem;
+	margin-top: -0.5rem;
+}
+
+.button-container {
+	margin-top: 1rem;
+}
+
+.white {
+	color: white;
+}

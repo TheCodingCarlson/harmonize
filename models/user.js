@@ -1,6 +1,12 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt');
 
+
+// var Progressions = mongoose.Schema({
+//   userId: String,
+//   chords: String
+// });
+
 var UserSchema = mongoose.Schema({
   name: String,
   email: String,
@@ -13,7 +19,8 @@ UserSchema.set('toJSON', {
     var returnJson = {
       id: ret._id,
       email: ret.email,
-      name: ret.name
+      name: ret.name,
+      progressions: ret.progressions
     };
     return returnJson;
   }

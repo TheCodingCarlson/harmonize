@@ -1,47 +1,63 @@
-<h1>Create Cool Chord Progressions</h1>
+<div class='row'>
+	<div class='col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3'>
+		<h1><b>Create</b> Chord Progressions</h1>
+		<hr>
+		<div ng-show="begin">
+		<form ng-submit="getInitialValue()">
+			<h3>Starting Note</h3>
+			<select class="form-control" name="note" id="note" ng-model="note">
+				<option value="">---Please select a note---</option>
+				<option value="c4">C</option>
+				<option value="db4">C#/Db</option>
+				<option value="d4">D</option>
+				<option value="eb4">D#/Eb</option>
+				<option value="e4">E</option>
+				<option value="f4">F</option>
+				<option value="gb4">Gb/F#</option>
+				<option value="g4">G</option>
+				<option value="ab4">G#/Ab</option>
+				<option value="a4">A</option>
+				<option value="bb4">A#/Bb</option>
+				<option value="b4">B</option>
+			</select>
 
-<div ng-show="begin">
-<form ng-submit="getInitialValue()">
-	<h3>Choose a Starting Note</h3>
-	<select class="form-control" name="note" id="note" ng-model="note">
-		<option value="">---Please select a note---</option>
-		<option value="c4">C</option>
-		<option value="db4">C#/Db</option>
-		<option value="d4">D</option>
-		<option value="eb4">D#/Eb</option>
-		<option value="e4">E</option>
-		<option value="f4">F</option>
-		<option value="gb4">Gb/F#</option>
-		<option value="g4">G</option>
-		<option value="ab4">G#/Ab</option>
-		<option value="a4">A</option>
-		<option value="bb4">A#/Bb</option>
-		<option value="b4">B</option>
-	</select>
-
-	<h3>Choose a Chord Quality</h3>
-	<select class="form-control" name="chordQuality" id="chordQuality" ng-model="chordQuality">
-		<option value="">---Please select a chord quality---</option>
-		<option value="M">Major</option>
-		<option value="m">Minor</option>
-	</select>
-	<button type="submit" class="btn btn-default">Add Chord</button>
-</form>
+			<h3>Chord Quality</h3>
+			<select class="form-control" name="chordQuality" id="chordQuality" ng-model="chordQuality">
+				<option value="">---Please select a chord quality---</option>
+				<option value="M">Major</option>
+				<option value="m">Minor</option>
+			</select>
+			<div class='first-button-container'>
+				<button id='first-button' type="submit" class="btn btn-default">Add Chord</button>
+			</div>
+		</form>
+		</div>
+	</div>
 </div>
 
 <div ng-hide="begin">
-	<form ng-submit="getChords()">
-		<h3>Common Chords To Choose Next</h3>
-		<select class="form-control" name="chords" id="chords" ng-model="chordName">
-			<option ng-repeat="chord in chordOptions" value="{{ chord.chord }}">{{ chord.chord }}</option>
-		</select>
-		<button type="submit" class="btn btn-default">Add Chord</button>
-	</form>
+	<div class='row'>
+		<div class='col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3'>
+			<form ng-submit="getChords()">
+				<h3>Common Following Chords</h3>
+				<select class="form-control" name="chords" id="chords" ng-model="chordName">
+					<option ng-repeat="chord in chordOptions track by $index" value="{{ chord.chord }}">{{ chord.chord }}</option>
+				</select>
+				<div class='button-container'>
+					<button type="submit" class="btn btn-default comp-btn">Add Chord</button>
+					<button ng-click="resetPage()" type="button" ng-show="reset" class="btn btn-default comp-btn">Reset</button>
+					<button id="favorite" ng-click="addFavorite()" type="button" ng-show="favorite" class="btn btn-default comp-btn">Favorite</button>
+				</div>
+			</form>
+			<h4 class='white'>Your Chord Progression: </h4>
+		</div>
+	</div>
 </div>
-<button ng-click="resetPage()" type="button" ng-show="reset" class="btn btn-default">Reset</button>
 
-<h2>{{ chordProgression }}</h2>
-<h2>{{ chordOne }}</h2>
-<h2>{{ chordTwo }}</h2>
-<h2>{{ chordThree }}</h2>
-<h2>{{ chordFour }}</h2>
+<div class='row'>
+	<div class='col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3'>
+	<div class='chord-prog-container' ng-repeat='chord in chordProgression track by $index'>
+		<h1 id='chord'>{{ chord }}</h1>
+	</div>
+	</div>
+</div>

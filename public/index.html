@@ -5,8 +5,9 @@
 	<title>Harmonize</title>
 	<link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="app/css/styles.css">
+	<link href='https://fonts.googleapis.com/css?family=Raleway:700,400' rel='stylesheet' type='text/css'>	<link rel="stylesheet" type="text/css" href="app/css/styles.css">
+	<link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular.js"></script>
   <!-- 	// <script src="angular-flash.min.js"></script> -->
    	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-resource.js"></script>
@@ -17,6 +18,11 @@
     <script src="app/js/controllers.js"></script>
     <script src="app/js/teoria.js"></script>
   	<script src="app/js/app.js"></script>
+  	<script>
+  		$(function () {
+  			$('[data-toggle="tooltip"]').tooltip();
+		});
+  	</script>
 </head>
 <body>
 	<ng-include src="'./app/views/navbar.html'"></ng-include>
