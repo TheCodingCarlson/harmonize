@@ -4,7 +4,6 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 }])
 .controller('CompCtrl', ['$scope','Auth', '$http', function($scope, Auth, $http) {
 
-	var count = 0;
 	$scope.begin = true;
 	$scope.reset = false;
 	$scope.favorite = false;
@@ -20,6 +19,8 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 	}
 
 	$scope.getInitialValue = function() {
+		var count = 0;
+		console.log(count);
 
 		//get value from initial inputs and set them as vars
 		var note = teoria.note($scope.note);
@@ -459,7 +460,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 					}
 				}
 
-			if (count === 3) {
+			if ($scope.chordProgression.length === 4) {
 				$scope.reset = true;
 				if (Auth.isLoggedIn() === true) {
 					$scope.favorite = true;
@@ -476,12 +477,13 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 		$scope.chordName = undefined;
 		var note = undefined;
 		var quality = undefined;
-		var count = 0;
+		count = 0;
 		$scope.chordProgression = undefined;
 		$scope.chordOne = undefined;
 		$scope.chordTwo = undefined;
 		$scope.chordThree = undefined;
 		$scope.chordFour = undefined;
+		
 	}
 
 	$('#favorite').on('click', function() {
@@ -551,6 +553,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 	'User',
 	function($scope, $location, Auth, $http, User) {
 	var user = Auth.currentUser();
+	$scope.name = user.name;
 
 	User.get({id: user.id}, function success(data) {
 		$scope.userProgressions = data.progressions;
@@ -561,8 +564,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 	
 	$scope.deleteProgression = function(index) {
 		$scope.userProgressions.splice(index, 1);
-		user.progressions = $scope.userProgressions;
-		console.log(user.progressions);		
+		user.progressions = $scope.userProgressions;		
 		$http.put('/api/users/' + user.id, 
 		{progressions: user.progressions})
 		.then(

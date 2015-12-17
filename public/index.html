@@ -2,14 +2,16 @@
 <html ng-app='HarmonyApp'>
 <head>
 	<base href='/'/>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Harmonize</title>
 	<link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link href='https://fonts.googleapis.com/css?family=Raleway:700,400' rel='stylesheet' type='text/css'>	<link rel="stylesheet" type="text/css" href="app/css/styles.css">
-	<link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:700,400' rel='stylesheet' type='text/css'>	
+	<link rel="stylesheet" type="text/css" href="app/css/styles.css">
 	<link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular.js"></script>
-  <!-- 	// <script src="angular-flash.min.js"></script> -->
    	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-resource.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-route.js"></script>
 	<script src="https://code.jquery.com/jquery.js"></script>
@@ -23,7 +25,6 @@
 <body>
 	<ng-include src="'./app/views/navbar.html'"></ng-include>
 	<div class="container">
-	<div flash-message="5000"></div>
 		<ng-view></ng-view>	
 	</div>
 </body>
