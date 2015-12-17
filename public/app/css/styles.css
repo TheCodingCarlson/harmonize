@@ -3,6 +3,11 @@ body {
  color: #c2d995;
  font-family: 'Raleway', sans-serif;
 }
+
+.alerts-container {
+z-index: 999;
+}
+
 .btn {
 	border-radius: none;
 }
