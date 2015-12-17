@@ -22,6 +22,10 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 		return arr;
 	}
 
+	var getChordNotes = function(chord, arr) {
+
+	}
+
 	$scope.getInitialValue = function() {
 
 		//get value from initial inputs and set them as vars
@@ -32,7 +36,6 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 
 		//set initial state
 		$scope.chordOne = note.chord(quality).name;
-		$scope.chordOneNotes = fixChordNotes(note.chord(quality).simple());
 		$scope.begin = false;
 		$scope.chordProgression = [];
 		$scope.chordProgression.push($scope.chordOne);
@@ -116,6 +119,7 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 		$scope.getChords = function() {
 			if($scope.chordName) {
 				count += 1;
+				console.log($scope.chordName);
 
 				//MAJOR CHORD TREE
 
@@ -195,6 +199,7 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 						{chord: majorChords[3].chord},
 						{chord: majorChords[4].chord}
 					];
+
 				} else if ($scope.chordTwo === majorChords[3].chord && $scope.chordName === majorChords[0].chord && count === 2) {
 					$scope.chordThree = $scope.chordName;
 					$scope.chordProgression.push($scope.chordThree);
@@ -494,6 +499,7 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
       password: ''
     };
     $scope.actionName = 'Login';
+    $scope.showName = false;
     $scope.userAction = function() {
       $http.post('/api/auth', $scope.user).then(function(res) {
         Auth.saveToken(res.data.token);
@@ -514,6 +520,7 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
       password: ''
     };
     $scope.actionName = 'SignUp';
+    $scope.showName = true;
     $scope.userAction = function() {
     	console.log($scope.user);
       $http.post('/api/users', $scope.user).then(function (res) {
@@ -534,8 +541,13 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 	'$location',
 	'Auth', 
 	function($scope, $location, Auth) {
-	$scope.user = Auth.currentUser();
-	console.log($scope.user.progressions);
+	var user = Auth.currentUser();
+	$scope.name = user.name;
+	$scope.userProgressions = user.progressions;
+
+	$scope.deleteProgression = function(index) {
+		$scope.userProgressions.splice(index, 1);
+	}
 
 }])
 .controller('NavBarCtrl', [

@@ -89,3 +89,31 @@ body {
 .white {
 	color: white;
 }
+
+.error-msg {
+	text-align: center;
+}
+
+.delete {
+	background-color: transparent;
+	border: none;
+	color: white;
+}
+
+.delete:hover {
+	background-color: transparent;
+	color: #880000;
+}
+
+.delete:active,
+.delete:focus {
+	background-color: transparent;
+	color: white;
+	outline: none;
+}
+
+.chord-show {
+	overflow: scroll;
+	height: 50vh;
+	background-color: white;
+}

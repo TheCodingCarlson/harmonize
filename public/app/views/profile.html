@@ -1,1 +1,12 @@
-<h1>User Profile Here</h1>
+<div class='row'>
+	<div class='col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3'>	
+		<h1><b>Hello</b>, {{ name }}</h1>
+		<hr>
+		<h3 class='white'>Favorite Progressions: </h3>
+		<div ng-repeat="chord in userProgressions track by $index">
+			<h3><button type="button" class="btn btn-default delete" aria-label="Left Align" ng-click='deleteProgression($index)'>
+		  	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			</button>{{ chord }}</h3>
+		</div>
+	</div>
+</div>
