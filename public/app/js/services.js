@@ -1,4 +1,7 @@
 angular.module('HarmonyServices', ['ngResource'])
+.factory('User', ['$resource', function($resource) {
+	return $resource('/api/users/:id');
+}])
 .factory('Auth', ['$window', '$location', function($window, $location) {
 	return {
 		saveToken: function(token) {

@@ -44,9 +44,9 @@
 					<option ng-repeat="chord in chordOptions track by $index" value="{{ chord.chord }}">{{ chord.chord }}</option>
 				</select>
 				<div class='button-container'>
-					<button type="submit" class="btn btn-default comp-btn">Add Chord</button>
-					<button ng-click="resetPage()" type="button" ng-show="reset" class="btn btn-default comp-btn">Reset</button>
-					<button id="favorite" ng-click="addFavorite()" type="button" ng-show="favorite" class="btn btn-default comp-btn">Favorite</button>
+					<button type="submit" class="btn btn-default btn-sm comp-btn">Add Chord</button>
+					<button ng-click="resetPage()" type="button" ng-show="reset" class="btn btn-default btn-sm comp-btn">Reset</button>
+					<button id="favorite" ng-click="addFavorite()" type="button" ng-show="favorite" class="btn btn-default btn-sm comp-btn">Favorite</button>
 				</div>
 			</form>
 			<h4 class='white'>Your Chord Progression: </h4>

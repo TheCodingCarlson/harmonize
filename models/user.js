@@ -1,12 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt');
 
-
-// var Progressions = mongoose.Schema({
-//   userId: String,
-//   chords: String
-// });
-
 var UserSchema = mongoose.Schema({
   name: String,
   email: String,
