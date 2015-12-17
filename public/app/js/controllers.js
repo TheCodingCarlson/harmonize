@@ -5,21 +5,39 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 	// 	Flash.create('success', message);
 	// }
 }])
-.controller('CompCtrl', ['$scope', function($scope) {
+.controller('CompCtrl', ['$scope','Auth', '$http', function($scope, Auth, $http) {
+
 	var count = 0;
 	$scope.begin = true;
 	$scope.reset = false;
+	$scope.favorite = false;
+
+	//function to capitalize first letter of note arrays
+	var fixChordNotes = function(arr) {
+		for (var i = 0; i < arr.length; i++) {
+			arr[i] = arr[i].replace(/^./, function(match) {
+				return match.toUpperCase();
+			});
+		}
+		return arr;
+	}
+
 	$scope.getInitialValue = function() {
-		
+
+		//get value from initial inputs and set them as vars
 		var note = teoria.note($scope.note);
 		var quality = $scope.chordQuality;
 
+		if (note && quality) {
+
+		//set initial state
 		$scope.chordOne = note.chord(quality).name;
-		$scope.chordOneNotes = note.chord(quality).simple();
+		$scope.chordOneNotes = fixChordNotes(note.chord(quality).simple());
 		$scope.begin = false;
 		$scope.chordProgression = [];
 		$scope.chordProgression.push($scope.chordOne);
 
+		//MAJOR CHORDS
 		var majorChords = [
 			{"name": "rootChord",
 			"chord": note.chord(quality).name, 
@@ -46,6 +64,7 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 			"notes": teoria.interval(note, 'M6').chord('m').simple()}
 			];
 
+		//MINOR CHORDS
 		var minorChords = [
 			{"name": "rootChord",
 			"chord": note.chord(quality).name, 
@@ -76,6 +95,7 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 			"notes": teoria.interval(note, 'm7').chord('M').simple()}
 			];
 
+		//set initial options based on quality value
 		if(quality === 'M' && count === 0) {
 			$scope.chordOptions = [
 				{chord: majorChords[1].chord},
@@ -92,12 +112,14 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 			];
 		}
 
+		//get the other 3 chords after initial chord is chosen and set
 		$scope.getChords = function() {
 			if($scope.chordName) {
 				count += 1;
-				console.log(count);
 
-				//major chord tree
+				//MAJOR CHORD TREE
+
+				//if ii is 2nd chord
 				if ($scope.chordName === majorChords[1].chord && count === 1) {
 					$scope.chordTwo = $scope.chordName;
 					$scope.chordProgression.push($scope.chordTwo);
@@ -106,6 +128,8 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 						{chord: majorChords[2].chord},
 						{chord: majorChords[3].chord}
 					];
+
+				//if IV is 2nd chord
 				} else if ($scope.chordName === majorChords[3].chord && count === 1) {
 					$scope.chordTwo = $scope.chordName;
 					$scope.chordProgression.push($scope.chordTwo);
@@ -115,6 +139,8 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 						{chord: majorChords[4].chord},
 						{chord: majorChords[5].chord}
 					];
+
+				//if V is 2nd chord
 				} else if ($scope.chordName === majorChords[4].chord && count === 1) {
 					$scope.chordTwo = $scope.chordName;
 					$scope.chordProgression.push($scope.chordTwo);
@@ -124,6 +150,8 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 						{chord: majorChords[3].chord},
 						{chord: majorChords[5].chord}
 					];
+
+				//if vi is  2nd chord
 				} else if ($scope.chordName === majorChords[5].chord && count === 1) {
 					$scope.chordTwo = $scope.chordName;
 					$scope.chordProgression.push($scope.chordTwo);
@@ -133,6 +161,7 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 						{chord: majorChords[3].chord}
 					];
 
+				//if ii is 2nd chord and iii is 3rd chord
 				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordName === majorChords[2].chord && count === 2) {
 					$scope.chordThree = $scope.chordName;
 					$scope.chordProgression.push($scope.chordThree);
@@ -141,6 +170,8 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 						{chord: majorChords[3].chord},
 						{chord: majorChords[4].chord}
 					];
+
+				//if ii is 2nd chord and IV is 3rd chord
 				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordName === majorChords[3].chord && count === 2) {
 					$scope.chordThree = $scope.chordName;
 					$scope.chordProgression.push($scope.chordThree);
@@ -148,11 +179,14 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 					$scope.chordOptions = [
 						{chord: majorChords[4].chord}
 					];
+
+				//if ii is 2nd chord and IV is 3rd chord - set 4th chord
 				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordThree === majorChords[3].chord && count === 3) {
 					$scope.chordFour = $scope.chordName;
 					$scope.chordProgression.push($scope.chordFour);
 					$scope.chordName = '';
-					
+
+				//if ii is 2nd chord and
 				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordThree === majorChords[2].chord && count === 3) {
 					$scope.chordFour = $scope.chordName;
 					$scope.chordProgression.push($scope.chordFour);
@@ -258,7 +292,6 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 					$scope.chordProgression.push($scope.chordFour);
 					$scope.chordName = '';
 					
-
 
 				//minor chord tree
 				} else if ($scope.chordName === minorChords[3].chord && count === 1) {
@@ -405,21 +438,40 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 					$scope.chordName = '';
 					
 				}
-			}
+
+				$scope.addFavorite = function() {
+					$scope.user = Auth.currentUser();
+					console.log($scope.chordProgression); 
+					$http.post('/api/users/' + $scope.user.id, 
+					{progression: $scope.chordProgression})
+					.then(
+						function succes(res) {
+							console.log('success');
+						}, function error(res) {
+							console.log(res);
+
+						});
+					}
+				}
 
 			if (count === 3) {
 				$scope.reset = true;
-
+				if (Auth.isLoggedIn() === true) {
+					$scope.favorite = true;
+				}
 			}
+		}
 		}	
 	}
 
 	$scope.resetPage = function() {
 		$scope.begin = true;
+		$scope.reset = false;
+		$scope.favorite = false;
 		$scope.chordName = undefined;
-		note = undefined;
-		quality = undefined;
-		count = 0;
+		var note = undefined;
+		var quality = undefined;
+		var count = 0;
 		$scope.chordProgression = undefined;
 		$scope.chordOne = undefined;
 		$scope.chordTwo = undefined;
@@ -427,8 +479,9 @@ angular.module('HarmonyCtrls',['HarmonyServices'])
 		$scope.chordFour = undefined;
 	}
 
-
-
+	$('#favorite').on('click', function() {
+		$(this).attr('disabled', true); 
+	});
 }])
 .controller('LoginCtrl', [
   '$scope',

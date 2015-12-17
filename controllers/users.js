@@ -23,4 +23,15 @@ router.get('/:id', function(req, res) {
   });
 });
 
+router.post('/:id', function(req, res) {
+  User.findById(req.params.id, function(err, user) {
+    user.progressions.push(req.body.progression);
+    user.save(function(err) {
+        console.log(err);
+        if (err) return res.status(500).send(err);
+        res.send({'message': 'success'});
+    });
+  });
+});
+  
 module.exports = router;
