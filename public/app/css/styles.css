@@ -46,10 +46,14 @@ z-index: 999;
 
 #homea {
 	color: white;
+}
+
+#abouta {
+	color: #c2d995;
 	text-decoration: none;
 }
 
-#homea:hover {
+#abouta:hover {
 	text-decoration: underline;	
 }
 
