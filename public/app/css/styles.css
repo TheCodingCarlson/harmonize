@@ -167,8 +167,8 @@ i {
   #chord {
     font-size: 22px;
   }
-  .about-pic-container {
-  	height: 25vh;
+  .about-pic {
+  	height: 75%;
   	width: 100%;
   }
 }
