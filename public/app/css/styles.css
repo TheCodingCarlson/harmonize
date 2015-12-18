@@ -80,6 +80,12 @@ z-index: 999;
 	text-align: center;
 }
 
+@media (max-width: 400px) {
+  #chord {
+    font-size: 30px;
+  }
+}
+
 #chord {
 	font-weight: bold;
 	margin-left: 1rem;
