@@ -80,12 +80,6 @@ z-index: 999;
 	text-align: center;
 }
 
-@media (max-width: 400px) {
-  #chord {
-    font-size: 30px;
-  }
-}
-
 #chord {
 	font-weight: bold;
 	margin-left: 1rem;
@@ -139,10 +133,9 @@ z-index: 999;
 }
 
 .favorite-chords {
-	height: 400px;
+	height: 350px;
 	width: 300px;
 	overflow: auto;
-	border: 2px solid white;
 }
 
 .about {
@@ -151,6 +144,7 @@ z-index: 999;
 
 .about-pic-container {
 	height: 40vh;
+	width: 100%;
 }
 
 .about-pic {
@@ -167,4 +161,14 @@ i {
 .icons {
 	text-align: center;
 	margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  #chord {
+    font-size: 22px;
+  }
+  .about-pic-container {
+  	height: 25vh;
+  	width: 100%;
+  }
 }
