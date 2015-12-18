@@ -36,4 +36,4 @@ Displaying notes of the chords chosen. Adding sound samples to chords. Sharing c
 * JSON Web Tokens
 
 ###Link to Wireframes
-![Wireframes](http://imgur.com/vy1Gn0Z)
+![Wireframes](https://www.dropbox.com/sh/hirfoex4qet0xm6/AAAdKO4JhgqzYMwkMlM1u20ia?dl=0)
