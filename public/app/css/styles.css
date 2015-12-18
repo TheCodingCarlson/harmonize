@@ -171,4 +171,8 @@ i {
   	height: 75%;
   	width: 100%;
   }
+  i {
+  	margin-left: 10px;
+  	margin-right: 10px;
+  }
 }
