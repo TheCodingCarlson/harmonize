@@ -467,9 +467,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 		$scope.chordThree = undefined;
 		$scope.chordFour = undefined;
 
-		$('#favorite').on('click', function() {
-			$(this).prop('disabled', false); 
-		});
+		$('#favorite').prop('disabled', false);
 		
 	}
 
