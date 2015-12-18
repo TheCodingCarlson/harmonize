@@ -32,6 +32,7 @@ Displaying notes of the chords chosen. Adding sound samples to chords. Sharing c
 * Teoria.js
 * jQuery
 * CSS3
+* HTML5
 * Bcrypt
 * JSON Web Tokens
 
