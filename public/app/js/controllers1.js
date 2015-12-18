@@ -127,9 +127,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 
 				//if ii is 2nd chord
 				if ($scope.chordName === majorChords[1].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordProgression.push($scope.chordTwo);
-					$scope.chordName = '';
+					setChordParams($scope.chordTwo, $scope.chordTwoNotes, majorChords[1].notes);
 					$scope.chordOptions = [
 						{chord: majorChords[2].chord},
 						{chord: majorChords[3].chord}
@@ -137,9 +135,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 
 				//if IV is 2nd chord
 				} else if ($scope.chordName === majorChords[3].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordProgression.push($scope.chordTwo);
-					$scope.chordName = '';
+					setChordParams($scope.chordTwo, $scope.chordTwoNotes, majorChords[3].notes);
 					$scope.chordOptions = [
 						{chord: majorChords[0].chord},
 						{chord: majorChords[4].chord},
@@ -148,9 +144,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 
 				//if V is 2nd chord
 				} else if ($scope.chordName === majorChords[4].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordProgression.push($scope.chordTwo);
-					$scope.chordName = '';
+					setChordParams($scope.chordTwo, $scope.chordTwoNotes, majorChords[4].notes);
 					$scope.chordOptions = [
 						{chord: majorChords[0].chord},
 						{chord: majorChords[3].chord},
@@ -159,19 +153,16 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 
 				//if vi is  2nd chord
 				} else if ($scope.chordName === majorChords[5].chord && count === 1) {
-					$scope.chordTwo = $scope.chordName;
-					$scope.chordProgression.push($scope.chordTwo);
-					$scope.chordName = '';
+					setChordParams($scope.chordTwo, $scope.chordTwoNotes, majorChords[5].notes);
 					$scope.chordOptions = [
 						{chord: majorChords[1].chord},
 						{chord: majorChords[3].chord}
 					];
+				//******************************************************************************
 
 				//if ii is 2nd chord and iii is 3rd chord
 				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordName === majorChords[2].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordProgression.push($scope.chordThree);
-					$scope.chordName = '';
+					setChordParams($scope.chordThree, $scope.chordThreeNotes, majorChords[2].notes);
 					$scope.chordOptions = [
 						{chord: majorChords[3].chord},
 						{chord: majorChords[4].chord}
@@ -179,15 +170,13 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 
 				//if ii is 2nd chord and IV is 3rd chord
 				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordName === majorChords[3].chord && count === 2) {
-					$scope.chordThree = $scope.chordName;
-					$scope.chordProgression.push($scope.chordThree);
-					$scope.chordName = '';
+					etChordParams($scope.chordThree, $scope.chordThreeNotes, majorChords[3].notes);
 					$scope.chordOptions = [
 						{chord: majorChords[4].chord}
 					];
 
-				//if ii is 2nd chord and IV is 3rd chord - set 4th chord
-				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordThree === majorChords[3].chord && count === 3) {
+				//if ii is 2nd chord and IV is 3rd chord - set 4th chord to
+				} else if ($scope.chordTwo === majorChords[1].chord && $scope.chordThree === majorChords[3].chord && $scope.chordName === majorChords[].chord && count === 3) {
 					$scope.chordFour = $scope.chordName;
 					$scope.chordProgression.push($scope.chordFour);
 					$scope.chordName = '';
