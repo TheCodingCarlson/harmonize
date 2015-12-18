@@ -4,7 +4,6 @@ var router = express.Router();
 
 router.route('/')
   .get(function(req, res) {
-    console.log(req.params.id);
     User.find(function(err, users) {
       if (err) return res.status(500).send(err);
       res.send(users);
@@ -35,7 +34,6 @@ router.route('/:id').post(function(req, res) {
   });
 }).put(function(req, res) {
   User.findByIdAndUpdate(req.params.id, {progressions: req.body.progressions}, function(err, user) {
-    console.log(req.body.progressions);
     if (err) return res.status(500).send(err);
     res.send({'message': 'success'});
   });
