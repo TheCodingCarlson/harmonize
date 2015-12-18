@@ -139,3 +139,27 @@ z-index: 999;
 	overflow: auto;
 	border: 2px solid white;
 }
+
+.about {
+	text-align: center;
+}
+
+.about-pic-container {
+	height: 40vh;
+}
+
+.about-pic {
+	height: 100%;
+	width: 80%;
+}
+
+i {
+	color: white;
+	margin-right: 20px;
+	margin-left: 20px; 
+}
+
+.icons {
+	text-align: center;
+	margin-top: 10px;
+}

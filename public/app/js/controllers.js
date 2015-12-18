@@ -523,7 +523,8 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
   '$http',
   '$location',
   'Auth',
-  function($scope, $http, $location, Auth) {
+  'Alerts',
+  function($scope, $http, $location, Auth, Alerts) {
     $scope.user = {
       email: '',
       password: ''
@@ -536,11 +537,13 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
         $http.post('/api/auth', $scope.user).then(function (res) {
            Auth.saveToken(res.data.token);
           $location.path('/');
-        }, function (res) {
+        }, function success(res) {
             console.log(res.data);
+            Alerts.add('success', 'Congrats! You Are Signed Up!');
         });
-      }, function (res) {
+      }, function error(res) {
           console.log(res.data);
+          Alerts.add('danger', 'Uh Oh, Something Went Wrong!');
       });
   	}
 }])
@@ -582,7 +585,7 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 	function($scope, Auth, Alerts) {
 		$scope.logout = function() {
 			Auth.logout();
-			Alerts.add('success', 'You have successfully logged out!');
+			Alerts.add('success', 'You Have Successfully Logged Out!');
 		}
 }])
 .controller('AlertCtrl', ['$scope', 'Alerts', function($scope, Alerts){
