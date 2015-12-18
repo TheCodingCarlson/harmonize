@@ -466,11 +466,15 @@ angular.module('HarmonyCtrls',['HarmonyServices', 'ui.bootstrap'])
 		$scope.chordTwo = undefined;
 		$scope.chordThree = undefined;
 		$scope.chordFour = undefined;
+
+		$('#favorite').on('click', function() {
+			$(this).prop('disabled', false); 
+		});
 		
 	}
 
 	$('#favorite').on('click', function() {
-		$(this).attr('disabled', true); 
+		$(this).prop('disabled', true); 
 	});
 }])
 .controller('LoginCtrl', [
