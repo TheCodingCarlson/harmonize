@@ -4,7 +4,7 @@
 
 ###Created By Chris Carlson
 
-![Screenshot](http://imgur.com/vy1Gn0Z)
+![Screenshot](http://i.imgur.com/vy1Gn0Z.png)
 
 
 ###What Does It Do?
@@ -17,7 +17,9 @@ Harmonize is an App that aids aspiring musicians in creating chord progressions.
 
 
 
-![User Stories](http://imgur.com/vy1Gn0Z)
+###User Stories
+* Someone that knows a few chords on the piano but doesn't know how to put them together
+* Someone that wants to start learning music but feels overwhelmed by the concept/seems too hard
 
 ![Wireframes](http://imgur.com/vy1Gn0Z)
 
